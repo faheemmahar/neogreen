@@ -1,0 +1,1336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>NeoGreen – The New Shade of Power</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet"/>
+<style>
+/* ===== TOKENS ===== */
+:root {
+  --g1:#1a5c2a; --g2:#2e8b3e; --g3:#4db86a; --g4:#a8e6b8;
+  --s1:#f57c00; --s2:#ffa726; --s3:#ffcc02;
+  --b1:#0277bd; --b2:#29b6f6; --b3:#e3f6ff;
+  --dark:#111b14; --mid:#2a3a2e; --light:#f4faf5;
+  --txt:#1c2b1e; --muted:#5a7060; --white:#ffffff;
+  --card:#ffffff; --border:#d4e8d8;
+  --radius:14px; --radius-lg:24px;
+  --shadow:0 4px 24px rgba(26,92,42,.10);
+  --shadow-lg:0 12px 48px rgba(26,92,42,.16);
+  --nav-h:72px;
+  --font-head:'Syne',sans-serif;
+  --font-body:'DM Sans',sans-serif;
+}
+/* ===== RESET ===== */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--font-body);color:var(--txt);background:var(--light);overflow-x:hidden}
+img{max-width:100%;display:block}
+a{text-decoration:none;color:inherit}
+button{cursor:pointer;border:none;background:none;font-family:inherit}
+ul{list-style:none}
+
+/* ===== SCROLLBAR ===== */
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-track{background:var(--light)}
+::-webkit-scrollbar-thumb{background:var(--g2);border-radius:3px}
+
+/* ===== PAGE SYSTEM ===== */
+.page{display:none;min-height:100vh;padding-top:var(--nav-h)}
+.page.active{display:block}
+
+/* ===== NAV ===== */
+nav{position:fixed;top:0;left:0;right:0;height:var(--nav-h);background:rgba(255,255,255,.97);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);z-index:1000;display:flex;align-items:center;padding:0 40px;gap:32px}
+.nav-logo{display:flex;align-items:center;gap:10px;flex-shrink:0}
+.nav-logo img{height:44px;width:auto}
+.nav-logo span{font-family:var(--font-head);font-size:1.3rem;font-weight:800;color:var(--g1)}
+.nav-links{display:flex;align-items:center;gap:4px;margin-left:auto;flex-wrap:wrap}
+.nav-links a,.nav-links button{padding:8px 14px;border-radius:8px;font-size:.875rem;font-weight:500;color:var(--muted);transition:all .2s;background:none}
+.nav-links a:hover,.nav-links button:hover,.nav-links a.active,.nav-links button.active{color:var(--g1);background:var(--g4)}
+.nav-dropdown{position:relative}
+.nav-dropdown-menu{position:absolute;top:calc(100% + 8px);left:0;background:white;border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow-lg);min-width:160px;padding:8px;display:none;z-index:100}
+.nav-dropdown:hover .nav-dropdown-menu{display:block}
+.nav-dropdown-menu a{display:block;padding:8px 12px;border-radius:8px;font-size:.85rem;color:var(--muted);transition:all .2s}
+.nav-dropdown-menu a:hover{background:var(--g4);color:var(--g1)}
+.nav-cta{background:var(--g1)!important;color:white!important;border-radius:8px;padding:9px 18px!important}
+.nav-cta:hover{background:var(--g2)!important;color:white!important}
+.hamburger{display:none;flex-direction:column;gap:5px;padding:8px;border-radius:8px}
+.hamburger span{display:block;width:22px;height:2px;background:var(--g1);border-radius:2px;transition:.3s}
+
+/* ===== HERO ===== */
+.hero{background:linear-gradient(135deg,var(--dark) 0%,var(--mid) 60%,#1a3d20 100%);color:white;min-height:calc(100vh - var(--nav-h));display:flex;align-items:center;position:relative;overflow:hidden;padding:80px 40px}
+.hero::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%232e8b3e' fill-opacity='0.08'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")}
+.hero-glow{position:absolute;top:-20%;right:-10%;width:600px;height:600px;background:radial-gradient(circle,rgba(77,184,106,.18) 0%,transparent 70%);pointer-events:none}
+.hero-glow2{position:absolute;bottom:-10%;left:-5%;width:400px;height:400px;background:radial-gradient(circle,rgba(41,182,246,.12) 0%,transparent 70%);pointer-events:none}
+.hero-inner{max-width:1200px;margin:0 auto;width:100%;display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;position:relative;z-index:1}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(77,184,106,.15);border:1px solid rgba(77,184,106,.3);border-radius:100px;padding:6px 16px;font-size:.8rem;color:var(--g3);font-weight:600;letter-spacing:.05em;text-transform:uppercase;margin-bottom:24px}
+.hero-badge::before{content:'';width:8px;height:8px;border-radius:50%;background:var(--g3);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(1.4)}}
+.hero h1{font-family:var(--font-head);font-size:clamp(2.2rem,5vw,3.8rem);font-weight:800;line-height:1.1;margin-bottom:20px}
+.hero h1 span{color:var(--g3)}
+.hero p{font-size:1.1rem;color:rgba(255,255,255,.75);line-height:1.7;margin-bottom:36px;max-width:500px}
+.hero-btns{display:flex;gap:14px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:13px 26px;border-radius:10px;font-weight:600;font-size:.95rem;transition:all .25s;cursor:pointer}
+.btn-primary{background:var(--g2);color:white}
+.btn-primary:hover{background:var(--g1);transform:translateY(-2px);box-shadow:0 8px 24px rgba(46,139,62,.4)}
+.btn-outline{background:transparent;color:white;border:1.5px solid rgba(255,255,255,.3)}
+.btn-outline:hover{background:rgba(255,255,255,.1);border-color:white}
+.hero-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:40px}
+.hero-stat{text-align:center;padding:20px;background:rgba(255,255,255,.06);border-radius:var(--radius);border:1px solid rgba(255,255,255,.1)}
+.hero-stat .num{font-family:var(--font-head);font-size:2rem;font-weight:800;color:var(--g3)}
+.hero-stat .lbl{font-size:.8rem;color:rgba(255,255,255,.6);margin-top:4px}
+.hero-visual{display:flex;justify-content:center;align-items:center}
+.hero-visual img{width:340px;filter:drop-shadow(0 20px 60px rgba(77,184,106,.4));animation:float 6s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-18px)}}
+
+/* ===== SCROLL TICKER ===== */
+.ticker{background:var(--g1);color:white;padding:12px 0;overflow:hidden;white-space:nowrap}
+.ticker-inner{display:inline-flex;gap:48px;animation:ticker 30s linear infinite}
+.ticker-item{display:flex;align-items:center;gap:10px;font-size:.875rem;font-weight:500}
+.ticker-item::before{content:'⚡';font-size:1rem}
+@keyframes ticker{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+
+/* ===== SECTIONS ===== */
+.section{padding:90px 40px}
+.section-inner{max-width:1200px;margin:0 auto}
+.section-label{display:inline-block;font-size:.75rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--g2);margin-bottom:12px}
+.section-title{font-family:var(--font-head);font-size:clamp(1.8rem,3.5vw,2.8rem);font-weight:800;color:var(--dark);line-height:1.15;margin-bottom:16px}
+.section-sub{font-size:1.05rem;color:var(--muted);max-width:560px;line-height:1.7}
+.section-header{margin-bottom:56px}
+.section-header.center{text-align:center}
+.section-header.center .section-sub{margin:0 auto}
+
+/* ===== CARDS ===== */
+.cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:24px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:32px;transition:all .3s}
+.card:hover{transform:translateY(-6px);box-shadow:var(--shadow-lg);border-color:var(--g3)}
+.card-icon{width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;margin-bottom:20px}
+.card h3{font-family:var(--font-head);font-size:1.15rem;font-weight:700;margin-bottom:10px;color:var(--dark)}
+.card p{font-size:.9rem;color:var(--muted);line-height:1.65}
+
+/* ===== GREEN BG SECTION ===== */
+.section-green{background:linear-gradient(135deg,var(--g1),var(--mid));color:white}
+.section-green .section-title{color:white}
+.section-green .section-sub{color:rgba(255,255,255,.75)}
+.section-green .section-label{color:var(--g3)}
+
+/* ===== PRODUCTS PAGE ===== */
+.product-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:40px}
+.prod-tab{padding:10px 20px;border-radius:100px;font-weight:600;font-size:.875rem;border:1.5px solid var(--border);color:var(--muted);transition:all .2s;cursor:pointer}
+.prod-tab.active,.prod-tab:hover{background:var(--g1);color:white;border-color:var(--g1)}
+.product-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:28px}
+.product-card{background:white;border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;transition:all .3s}
+.product-card:hover{transform:translateY(-6px);box-shadow:var(--shadow-lg)}
+.product-img{height:200px;background:linear-gradient(135deg,var(--g4),var(--b3));display:flex;align-items:center;justify-content:center;font-size:4rem;position:relative}
+.product-badge{position:absolute;top:12px;right:12px;background:var(--g1);color:white;font-size:.7rem;font-weight:700;padding:4px 10px;border-radius:100px;text-transform:uppercase}
+.product-body{padding:24px}
+.product-body h3{font-family:var(--font-head);font-size:1.1rem;font-weight:700;margin-bottom:8px}
+.product-body p{font-size:.875rem;color:var(--muted);line-height:1.6;margin-bottom:16px}
+.product-specs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px}
+.spec-tag{background:var(--g4);color:var(--g1);font-size:.75rem;font-weight:600;padding:4px 10px;border-radius:6px}
+.product-price{font-family:var(--font-head);font-size:1.3rem;font-weight:800;color:var(--g1)}
+.product-footer{display:flex;justify-content:space-between;align-items:center;margin-top:16px;padding-top:16px;border-top:1px solid var(--border)}
+
+/* ===== SOLAR CALCULATOR ===== */
+.calc-wrap{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:start}
+.calc-form{background:white;border:1px solid var(--border);border-radius:var(--radius-lg);padding:36px}
+.calc-result{background:linear-gradient(135deg,var(--g1),#2d6a1e);border-radius:var(--radius-lg);padding:36px;color:white;position:sticky;top:calc(var(--nav-h) + 20px)}
+.form-group{margin-bottom:22px}
+.form-group label{display:block;font-size:.875rem;font-weight:600;color:var(--dark);margin-bottom:8px}
+.form-group input,.form-group select{width:100%;padding:12px 16px;border:1.5px solid var(--border);border-radius:10px;font-family:var(--font-body);font-size:.9rem;color:var(--txt);background:var(--light);transition:border-color .2s}
+.form-group input:focus,.form-group select:focus{outline:none;border-color:var(--g2)}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.calc-btn{width:100%;padding:15px;background:var(--g2);color:white;border-radius:10px;font-weight:700;font-size:1rem;transition:all .25s}
+.calc-btn:hover{background:var(--g1);transform:translateY(-2px)}
+.result-title{font-family:var(--font-head);font-size:1.4rem;font-weight:700;margin-bottom:24px}
+.result-item{display:flex;justify-content:space-between;align-items:center;padding:14px 0;border-bottom:1px solid rgba(255,255,255,.15)}
+.result-item:last-of-type{border:none}
+.result-label{font-size:.875rem;color:rgba(255,255,255,.75)}
+.result-value{font-family:var(--font-head);font-size:1.2rem;font-weight:700;color:var(--g3)}
+.result-note{margin-top:20px;padding:16px;background:rgba(255,255,255,.1);border-radius:10px;font-size:.8rem;color:rgba(255,255,255,.75);line-height:1.6}
+
+/* ===== TEAM ===== */
+.team-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:28px}
+.team-card{background:white;border-radius:var(--radius-lg);overflow:hidden;border:1px solid var(--border);transition:all .3s;text-align:center}
+.team-card:hover{transform:translateY(-6px);box-shadow:var(--shadow-lg)}
+.team-avatar{height:180px;display:flex;align-items:center;justify-content:center;font-size:4rem;position:relative}
+.team-info{padding:20px}
+.team-info h3{font-family:var(--font-head);font-weight:700;font-size:1.05rem;margin-bottom:4px}
+.team-info .role{font-size:.8rem;color:var(--g2);font-weight:600;text-transform:uppercase;letter-spacing:.05em;margin-bottom:10px}
+.team-info p{font-size:.82rem;color:var(--muted);line-height:1.6}
+.team-social{display:flex;justify-content:center;gap:10px;margin-top:14px}
+.team-social a{width:30px;height:30px;border-radius:50%;background:var(--g4);color:var(--g1);display:flex;align-items:center;justify-content:center;font-size:.8rem;transition:.2s}
+.team-social a:hover{background:var(--g1);color:white}
+
+/* ===== BLOG ===== */
+.blog-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:28px}
+.blog-card{background:white;border-radius:var(--radius-lg);overflow:hidden;border:1px solid var(--border);transition:all .3s}
+.blog-card:hover{transform:translateY(-6px);box-shadow:var(--shadow-lg)}
+.blog-img{height:200px;display:flex;align-items:center;justify-content:center;font-size:3.5rem;position:relative}
+.blog-tag{position:absolute;bottom:12px;left:12px;background:var(--g1);color:white;font-size:.7rem;font-weight:700;padding:4px 12px;border-radius:100px;text-transform:uppercase}
+.blog-body{padding:24px}
+.blog-meta{display:flex;gap:16px;font-size:.78rem;color:var(--muted);margin-bottom:12px}
+.blog-body h3{font-family:var(--font-head);font-size:1.1rem;font-weight:700;line-height:1.3;margin-bottom:10px;color:var(--dark)}
+.blog-body p{font-size:.875rem;color:var(--muted);line-height:1.65}
+.blog-read{display:inline-flex;align-items:center;gap:6px;margin-top:16px;font-size:.85rem;font-weight:600;color:var(--g2)}
+.blog-read:hover{color:var(--g1)}
+
+/* ===== FAQ ===== */
+.faq-list{max-width:760px;margin:0 auto}
+.faq-item{background:white;border:1px solid var(--border);border-radius:var(--radius);margin-bottom:10px;overflow:hidden;transition:all .3s}
+.faq-item.open{border-color:var(--g3);box-shadow:0 4px 16px rgba(77,184,106,.15)}
+.faq-q{width:100%;text-align:left;padding:20px 24px;font-weight:600;font-size:.95rem;color:var(--dark);display:flex;justify-content:space-between;align-items:center;gap:16px;cursor:pointer;background:none;border:none;font-family:inherit}
+.faq-q:hover{color:var(--g1)}
+.faq-icon{width:24px;height:24px;border-radius:50%;background:var(--g4);color:var(--g1);display:flex;align-items:center;justify-content:center;font-size:1rem;font-weight:700;flex-shrink:0;transition:.3s}
+.faq-item.open .faq-icon{background:var(--g1);color:white;transform:rotate(45deg)}
+.faq-a{display:none;padding:0 24px 20px;font-size:.9rem;color:var(--muted);line-height:1.7}
+.faq-item.open .faq-a{display:block}
+
+/* ===== CONTACT ===== */
+.contact-wrap{display:grid;grid-template-columns:1fr 1.4fr;gap:48px;align-items:start}
+.contact-info h2{font-family:var(--font-head);font-size:2rem;font-weight:800;margin-bottom:16px}
+.contact-detail{display:flex;align-items:flex-start;gap:14px;padding:18px 0;border-bottom:1px solid var(--border)}
+.contact-detail:last-child{border:none}
+.contact-detail .ic{width:42px;height:42px;border-radius:12px;background:var(--g4);color:var(--g1);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0}
+.contact-detail .ct-txt h4{font-weight:700;font-size:.9rem;margin-bottom:3px}
+.contact-detail .ct-txt p{font-size:.875rem;color:var(--muted)}
+.contact-form{background:white;border:1px solid var(--border);border-radius:var(--radius-lg);padding:36px}
+.contact-form h3{font-family:var(--font-head);font-size:1.4rem;font-weight:700;margin-bottom:24px}
+.contact-form textarea{width:100%;padding:12px 16px;border:1.5px solid var(--border);border-radius:10px;font-family:var(--font-body);font-size:.9rem;resize:vertical;min-height:130px;transition:.2s}
+.contact-form textarea:focus{outline:none;border-color:var(--g2)}
+.submit-btn{width:100%;padding:15px;background:var(--g1);color:white;border-radius:10px;font-weight:700;font-size:1rem;transition:all .25s;margin-top:4px;cursor:pointer;border:none;font-family:inherit}
+.submit-btn:hover{background:var(--g2);transform:translateY(-2px)}
+.map-embed{margin-top:32px;border-radius:var(--radius-lg);overflow:hidden;border:1px solid var(--border);height:240px;background:linear-gradient(135deg,#e8f5e9,#e3f6ff);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px;color:var(--muted)}
+.map-embed span{font-size:3rem}
+.map-embed p{font-size:.875rem;font-weight:500}
+
+/* ===== PROJECTS ===== */
+.project-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:28px}
+.project-card{border-radius:var(--radius-lg);overflow:hidden;border:1px solid var(--border);background:white;transition:all .3s}
+.project-card:hover{transform:translateY(-6px);box-shadow:var(--shadow-lg)}
+.project-img{height:220px;display:flex;align-items:center;justify-content:center;font-size:4rem;position:relative}
+.project-status{position:absolute;top:14px;right:14px;padding:5px 12px;border-radius:100px;font-size:.7rem;font-weight:700;text-transform:uppercase}
+.status-done{background:#dcfce7;color:#16a34a}
+.status-active{background:#fef3c7;color:#d97706}
+.status-upcoming{background:#dbeafe;color:#2563eb}
+.project-body{padding:24px}
+.project-body h3{font-family:var(--font-head);font-size:1.15rem;font-weight:700;margin-bottom:8px}
+.project-body p{font-size:.875rem;color:var(--muted);line-height:1.6;margin-bottom:16px}
+.project-stats{display:flex;gap:20px}
+.pstat{text-align:center}
+.pstat .pval{font-family:var(--font-head);font-size:1.2rem;font-weight:800;color:var(--g1)}
+.pstat .plbl{font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
+
+/* ===== PARTNERS ===== */
+.partner-logos{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:20px;margin-top:20px}
+.partner-logo{background:white;border:1px solid var(--border);border-radius:var(--radius);height:100px;display:flex;align-items:center;justify-content:center;padding:20px;font-family:var(--font-head);font-weight:800;font-size:1.1rem;color:var(--muted);transition:all .3s;cursor:default}
+.partner-logo:hover{border-color:var(--g3);color:var(--g1);box-shadow:var(--shadow)}
+
+/* ===== POLICY ===== */
+.policy-wrap{max-width:800px;margin:0 auto}
+.policy-wrap h2{font-family:var(--font-head);font-size:1.8rem;font-weight:800;margin-bottom:8px;color:var(--dark)}
+.policy-wrap .policy-date{font-size:.85rem;color:var(--muted);margin-bottom:32px}
+.policy-section{margin-bottom:36px}
+.policy-section h3{font-family:var(--font-head);font-size:1.1rem;font-weight:700;color:var(--g1);margin-bottom:12px}
+.policy-section p,.policy-section li{font-size:.9rem;color:var(--muted);line-height:1.8}
+.policy-section ul{padding-left:20px;list-style:disc}
+.policy-section ul li{margin-bottom:6px}
+
+/* ===== ABOUT HERO ===== */
+.about-hero{background:linear-gradient(135deg,var(--dark),var(--mid));color:white;padding:80px 40px;text-align:center}
+.about-hero h1{font-family:var(--font-head);font-size:clamp(2rem,4vw,3.2rem);font-weight:800;margin-bottom:16px}
+.about-hero p{font-size:1.1rem;color:rgba(255,255,255,.75);max-width:600px;margin:0 auto}
+
+/* ===== VALUES ===== */
+.values-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:20px}
+.value-card{background:white;border:1px solid var(--border);border-radius:var(--radius);padding:28px;text-align:center;transition:all .3s}
+.value-card:hover{border-color:var(--g3);transform:translateY(-4px)}
+.value-icon{font-size:2.5rem;margin-bottom:14px}
+.value-card h4{font-family:var(--font-head);font-weight:700;font-size:1rem;margin-bottom:8px;color:var(--dark)}
+.value-card p{font-size:.85rem;color:var(--muted);line-height:1.6}
+
+/* ===== FOOTER ===== */
+footer{background:var(--dark);color:rgba(255,255,255,.7);padding:64px 40px 32px}
+.footer-inner{max-width:1200px;margin:0 auto}
+.footer-grid{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:40px;margin-bottom:48px}
+.footer-brand img{height:48px;margin-bottom:16px}
+.footer-brand p{font-size:.875rem;line-height:1.7;color:rgba(255,255,255,.55);max-width:280px}
+.footer-social{display:flex;gap:10px;margin-top:20px}
+.footer-social a{width:36px;height:36px;border-radius:10px;background:rgba(255,255,255,.07);display:flex;align-items:center;justify-content:center;font-size:.9rem;transition:.2s}
+.footer-social a:hover{background:var(--g2)}
+.footer-col h4{font-family:var(--font-head);font-size:.85rem;font-weight:700;color:white;text-transform:uppercase;letter-spacing:.08em;margin-bottom:18px}
+.footer-col ul li{margin-bottom:10px}
+.footer-col ul li a{font-size:.875rem;color:rgba(255,255,255,.55);transition:.2s}
+.footer-col ul li a:hover{color:var(--g3)}
+.footer-bottom{border-top:1px solid rgba(255,255,255,.08);padding-top:24px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+.footer-bottom p{font-size:.8rem;color:rgba(255,255,255,.4)}
+.footer-bottom-links{display:flex;gap:20px}
+.footer-bottom-links a{font-size:.8rem;color:rgba(255,255,255,.4);transition:.2s}
+.footer-bottom-links a:hover{color:var(--g3)}
+
+/* ===== WHY US ===== */
+.why-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center}
+.why-visual{background:linear-gradient(135deg,var(--g4),var(--b3));border-radius:var(--radius-lg);height:420px;display:flex;align-items:center;justify-content:center;font-size:8rem;position:relative;overflow:hidden}
+.why-visual::after{content:'';position:absolute;bottom:0;left:0;right:0;height:50%;background:linear-gradient(transparent,rgba(26,92,42,.2))}
+.why-points{display:flex;flex-direction:column;gap:20px}
+.why-point{display:flex;gap:16px;align-items:flex-start}
+.why-point .wp-icon{width:44px;height:44px;border-radius:12px;background:var(--g4);color:var(--g1);display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0}
+.why-point h4{font-weight:700;font-size:.95rem;margin-bottom:4px;color:var(--dark)}
+.why-point p{font-size:.875rem;color:var(--muted);line-height:1.6}
+
+/* ===== TESTIMONIALS ===== */
+.testimonials-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:24px}
+.testi-card{background:white;border:1px solid var(--border);border-radius:var(--radius-lg);padding:28px}
+.testi-stars{color:var(--s1);font-size:1rem;margin-bottom:14px}
+.testi-card blockquote{font-size:.9rem;color:var(--txt);line-height:1.75;font-style:italic;margin-bottom:20px}
+.testi-author{display:flex;align-items:center;gap:12px}
+.testi-avatar{width:40px;height:40px;border-radius:50%;background:var(--g4);display:flex;align-items:center;justify-content:center;font-size:1.2rem}
+.testi-author h4{font-weight:700;font-size:.875rem;color:var(--dark)}
+.testi-author p{font-size:.78rem;color:var(--muted)}
+
+/* ===== CTA BANNER ===== */
+.cta-banner{background:linear-gradient(135deg,var(--g1) 0%,#1a4d2e 50%,#0d3320 100%);color:white;padding:80px 40px;text-align:center;position:relative;overflow:hidden}
+.cta-banner::before{content:'';position:absolute;top:-50%;right:-10%;width:600px;height:600px;border-radius:50%;background:rgba(77,184,106,.1)}
+.cta-banner h2{font-family:var(--font-head);font-size:clamp(1.8rem,3.5vw,2.8rem);font-weight:800;margin-bottom:16px;position:relative}
+.cta-banner p{font-size:1.05rem;color:rgba(255,255,255,.75);max-width:520px;margin:0 auto 32px;position:relative}
+.cta-banner .btn-primary{background:var(--s2);color:var(--dark);font-weight:800}
+.cta-banner .btn-primary:hover{background:var(--s3);box-shadow:0 8px 24px rgba(255,167,38,.4)}
+
+/* ===== MOBILE ===== */
+@media(max-width:900px){
+  nav{padding:0 20px;gap:16px}
+  .nav-links{display:none;position:fixed;top:var(--nav-h);left:0;right:0;background:white;flex-direction:column;align-items:stretch;padding:20px;border-bottom:1px solid var(--border);box-shadow:var(--shadow-lg)}
+  .nav-links.open{display:flex}
+  .nav-links a,.nav-links button{padding:12px 16px}
+  .nav-dropdown-menu{position:static;box-shadow:none;border:none;padding:0 0 0 16px;display:none!important}
+  .hamburger{display:flex}
+  .hero-inner{grid-template-columns:1fr}
+  .hero-visual{display:none}
+  .hero-stats{grid-template-columns:repeat(3,1fr)}
+  .calc-wrap,.contact-wrap,.why-grid,.footer-grid{grid-template-columns:1fr}
+  .section{padding:60px 20px}
+  nav{padding:0 20px}
+  .hero{padding:60px 20px}
+}
+@media(max-width:600px){
+  .footer-grid{grid-template-columns:1fr 1fr}
+  .hero-stats{grid-template-columns:1fr 1fr}
+  .form-row{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- ===== NAVBAR ===== -->
+<nav id="navbar">
+  <div class="nav-logo" onclick="showPage('home')" style="cursor:pointer">
+    <img src="NeoGreen.png" alt="NeoGreen logo"/>
+  </div>
+  <div class="nav-links" id="navLinks">
+    <div class="nav-dropdown">
+      <button class="nav-btn" onclick="showPage('about')">About Us ▾</button>
+      <div class="nav-dropdown-menu">
+        <a href="#" onclick="showPage('policy');return false">Policy</a>
+        <a href="#" onclick="showPage('faq');return false">FAQ</a>
+      </div>
+    </div>
+    <a href="#" onclick="showPage('partners');return false">Partners</a>
+    <a href="#" onclick="showPage('products');return false">Products</a>
+    <a href="#" onclick="showPage('projects');return false">Projects</a>
+    <a href="#" onclick="showPage('calculator');return false">Solar Calculator</a>
+    <a href="#" onclick="showPage('blog');return false">Blog</a>
+    <a href="#" onclick="showPage('team');return false">Team</a>
+    <a href="#" onclick="showPage('contact');return false" class="nav-cta">Contact Us</a>
+  </div>
+  <button class="hamburger" id="hamburger" onclick="toggleNav()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- ============================= HOME ============================= -->
+<div class="page active" id="page-home">
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-glow"></div><div class="hero-glow2"></div>
+    <div class="hero-inner">
+      <div>
+        <div class="hero-badge">Pakistan's Leading Clean Energy Company</div>
+        <h1>Power Your Future with <span>Clean Solar Energy</span></h1>
+        <p>NeoGreen delivers end-to-end solar solutions — from premium panels and lithium-ion storage to smart inverters — bridging green technology and sky-high performance.</p>
+        <div class="hero-btns">
+          <button class="btn btn-primary" onclick="showPage('calculator')">⚡ Get Solar Quote</button>
+          <button class="btn btn-outline" onclick="showPage('products')">Explore Products →</button>
+        </div>
+        <div class="hero-stats">
+          <div class="hero-stat"><div class="num">500+</div><div class="lbl">Projects Completed</div></div>
+          <div class="hero-stat"><div class="num">50MW</div><div class="lbl">Capacity Installed</div></div>
+          <div class="hero-stat"><div class="num">12K+</div><div class="lbl">Happy Clients</div></div>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <img src="NeoGreen.png" alt="NeoGreen"/>
+      </div>
+    </div>
+  </section>
+
+  <!-- Ticker -->
+  <div class="ticker">
+    <div class="ticker-inner">
+      <span class="ticker-item">Solar Panels</span>
+      <span class="ticker-item">Lithium Ion Batteries</span>
+      <span class="ticker-item">Smart Inverters</span>
+      <span class="ticker-item">Net Metering Solutions</span>
+      <span class="ticker-item">On-Grid & Off-Grid Systems</span>
+      <span class="ticker-item">Hybrid Solar Systems</span>
+      <span class="ticker-item">Solar Water Heaters</span>
+      <span class="ticker-item">Solar Panels</span>
+      <span class="ticker-item">Lithium Ion Batteries</span>
+      <span class="ticker-item">Smart Inverters</span>
+      <span class="ticker-item">Net Metering Solutions</span>
+      <span class="ticker-item">On-Grid & Off-Grid Systems</span>
+      <span class="ticker-item">Hybrid Solar Systems</span>
+      <span class="ticker-item">Solar Water Heaters</span>
+    </div>
+  </div>
+
+  <!-- Why NeoGreen -->
+  <section class="section" style="background:white">
+    <div class="section-inner">
+      <div class="why-grid">
+        <div>
+          <div class="section-label">Why Choose Us</div>
+          <h2 class="section-title">Pakistan's Most Trusted Solar Energy Partner</h2>
+          <p style="color:var(--muted);line-height:1.7;margin-bottom:32px">Combining the best of green energy innovation with next-generation electric power technology, NeoGreen is where sustainability meets performance.</p>
+          <div class="why-points">
+            <div class="why-point"><div class="wp-icon">🏅</div><div><h4>Certified & Approved</h4><p>AEDB registered installer with all major OEM certifications.</p></div></div>
+            <div class="why-point"><div class="wp-icon">🔋</div><div><h4>Premium Products</h4><p>Tier-1 solar panels, latest lithium batteries, and smart inverters from global brands.</p></div></div>
+            <div class="why-point"><div class="wp-icon">⚙️</div><div><h4>End-to-End Service</h4><p>From design to installation, net metering, and 24/7 after-sales support.</p></div></div>
+            <div class="why-point"><div class="wp-icon">💰</div><div><h4>Best ROI</h4><p>Systems designed to maximize savings and deliver payback in 3–5 years.</p></div></div>
+          </div>
+        </div>
+        <div class="why-visual">🌞</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Products Preview -->
+  <section class="section">
+    <div class="section-inner">
+      <div class="section-header center">
+        <div class="section-label">Our Products</div>
+        <h2 class="section-title">Complete Solar Solutions</h2>
+        <p class="section-sub">Everything you need for a complete, efficient solar energy system — sourced from the world's best manufacturers.</p>
+      </div>
+      <div class="cards-grid">
+        <div class="card" onclick="showPage('products')" style="cursor:pointer">
+          <div class="card-icon" style="background:#dcfce7">☀️</div>
+          <h3>Solar Panels</h3>
+          <p>Mono PERC, bifacial, and half-cut cell panels from 200W–600W. High efficiency for residential and commercial use.</p>
+        </div>
+        <div class="card" onclick="showPage('products')" style="cursor:pointer">
+          <div class="card-icon" style="background:#fef3c7">⚡</div>
+          <h3>Inverters</h3>
+          <p>Hybrid, on-grid, and off-grid inverters with smart monitoring. Brands: Growatt, Solis, Fronius, Huawei.</p>
+        </div>
+        <div class="card" onclick="showPage('products')" style="cursor:pointer">
+          <div class="card-icon" style="background:#dbeafe">🔋</div>
+          <h3>Lithium-Ion Batteries</h3>
+          <p>LFP and NMC batteries for uninterrupted power. 5kWh–100kWh storage solutions with 10-year warranties.</p>
+        </div>
+      </div>
+      <div style="text-align:center;margin-top:36px">
+        <button class="btn btn-primary" onclick="showPage('products')">View All Products →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section class="section" style="background:white">
+    <div class="section-inner">
+      <div class="section-header center">
+        <div class="section-label">Testimonials</div>
+        <h2 class="section-title">What Our Clients Say</h2>
+      </div>
+      <div class="testimonials-grid">
+        <div class="testi-card">
+          <div class="testi-stars">★★★★★</div>
+          <blockquote>"NeoGreen installed a 10kW hybrid system at our factory. Electricity bills dropped by 80%. Incredible ROI and professional team."</blockquote>
+          <div class="testi-author"><div class="testi-avatar">👨‍💼</div><div><h4>Ahmed Raza</h4><p>Factory Owner, Lahore</p></div></div>
+        </div>
+        <div class="testi-card">
+          <div class="testi-stars">★★★★★</div>
+          <blockquote>"Best solar company in Karachi! Their team handled everything — from design to net metering. Highly recommend NeoGreen."</blockquote>
+          <div class="testi-author"><div class="testi-avatar">👩‍💻</div><div><h4>Sara Malik</h4><p>Homeowner, Karachi</p></div></div>
+        </div>
+        <div class="testi-card">
+          <div class="testi-stars">★★★★★</div>
+          <blockquote>"The lithium battery backup system they installed has completely eliminated our load-shedding problems. Worth every rupee."</blockquote>
+          <div class="testi-author"><div class="testi-avatar">👨‍🏭</div><div><h4>Usman Tariq</h4><p>Businessman, Islamabad</p></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-banner">
+    <h2>Ready to Switch to Solar?</h2>
+    <p>Get a free consultation and custom solar proposal for your home or business today.</p>
+    <button class="btn btn-primary" onclick="showPage('calculator')">⚡ Calculate Your Savings</button>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <img src="NeoGreen.png" alt="NeoGreen"/>
+          <p>NeoGreen — The New Shade of Power. Pakistan's trusted partner for solar panels, inverters, and battery storage solutions.</p>
+          <div class="footer-social">
+            <a href="#">𝕏</a><a href="#">in</a><a href="#">f</a><a href="#">▶</a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4>Company</h4>
+          <ul>
+            <li><a href="#" onclick="showPage('about');return false">About Us</a></li>
+            <li><a href="#" onclick="showPage('team');return false">Our Team</a></li>
+            <li><a href="#" onclick="showPage('projects');return false">Projects</a></li>
+            <li><a href="#" onclick="showPage('blog');return false">Blog</a></li>
+            <li><a href="#" onclick="showPage('partners');return false">Partners</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Products</h4>
+          <ul>
+            <li><a href="#" onclick="showPage('products');return false">Solar Panels</a></li>
+            <li><a href="#" onclick="showPage('products');return false">Inverters</a></li>
+            <li><a href="#" onclick="showPage('products');return false">Batteries</a></li>
+            <li><a href="#" onclick="showPage('calculator');return false">Solar Calculator</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Support</h4>
+          <ul>
+            <li><a href="#" onclick="showPage('contact');return false">Contact Us</a></li>
+            <li><a href="#" onclick="showPage('faq');return false">FAQ</a></li>
+            <li><a href="#" onclick="showPage('policy');return false">Privacy Policy</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2025 NeoGreen Energy (Pvt.) Ltd. All rights reserved.</p>
+        <div class="footer-bottom-links">
+          <a href="#" onclick="showPage('policy');return false">Privacy Policy</a>
+          <a href="#">Terms of Use</a>
+          <a href="#">Sitemap</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<!-- ============================= ABOUT ============================= -->
+<div class="page" id="page-about">
+  <div class="about-hero">
+    <div class="section-label" style="color:var(--g3)">Who We Are</div>
+    <h1>About NeoGreen</h1>
+    <p>We are a next-generation clean energy company dedicated to making solar power accessible, affordable, and reliable for every Pakistani home and business.</p>
+  </div>
+  <section class="section" style="background:white">
+    <div class="section-inner">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;margin-bottom:80px">
+        <div>
+          <div class="section-label">Our Story</div>
+          <h2 class="section-title">Born from a Passion for a Greener Pakistan</h2>
+          <p style="color:var(--muted);line-height:1.8;margin-bottom:16px">NeoGreen was founded in 2018 by a team of energy engineers who believed that Pakistan's abundant sunlight deserved to be harnessed — not wasted. Combining the renewable expertise of BeyondGreen with the electric power systems knowledge of SkyElectric, we created a truly holistic solar energy company.</p>
+          <p style="color:var(--muted);line-height:1.8">Today, NeoGreen operates across all major cities in Pakistan, with a growing international footprint in the Middle East and Africa.</p>
+        </div>
+        <div style="background:linear-gradient(135deg,var(--g4),var(--b3));border-radius:var(--radius-lg);height:320px;display:flex;align-items:center;justify-content:center;font-size:6rem">🌍</div>
+      </div>
+      <!-- Mission & Vision -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:72px">
+        <div class="card" style="border-left:4px solid var(--g2)">
+          <div class="card-icon" style="background:var(--g4)">🎯</div>
+          <h3>Our Mission</h3>
+          <p>To accelerate Pakistan's transition to clean energy by providing affordable, reliable, and innovative solar solutions backed by world-class service and technology.</p>
+        </div>
+        <div class="card" style="border-left:4px solid var(--b2)">
+          <div class="card-icon" style="background:var(--b3)">🔭</div>
+          <h3>Our Vision</h3>
+          <p>A Pakistan where every home and business runs on clean, sustainable solar energy — reducing carbon footprint and energy dependence for a brighter future.</p>
+        </div>
+      </div>
+      <!-- Values -->
+      <div class="section-header center">
+        <div class="section-label">Our Values</div>
+        <h2 class="section-title">What Drives Us</h2>
+      </div>
+      <div class="values-grid">
+        <div class="value-card"><div class="value-icon">🌿</div><h4>Sustainability</h4><p>Every decision we make prioritizes the environment and future generations.</p></div>
+        <div class="value-card"><div class="value-icon">💡</div><h4>Innovation</h4><p>We adopt cutting-edge technology to stay ahead of the energy curve.</p></div>
+        <div class="value-card"><div class="value-icon">🤝</div><h4>Integrity</h4><p>Transparent pricing, honest advice, no hidden charges — ever.</p></div>
+        <div class="value-card"><div class="value-icon">⭐</div><h4>Excellence</h4><p>We don't settle for good enough. World-class installation and support.</p></div>
+        <div class="value-card"><div class="value-icon">🏘️</div><h4>Community</h4><p>Empowering local communities and creating green jobs across Pakistan.</p></div>
+        <div class="value-card"><div class="value-icon">🔒</div><h4>Reliability</h4><p>25-year product warranties and lifetime after-sales support commitment.</p></div>
+      </div>
+    </div>
+  </section>
+  <section class="cta-banner">
+    <h2>Join the NeoGreen Movement</h2>
+    <p>Be part of Pakistan's green energy revolution. Get your free solar assessment today.</p>
+    <button class="btn btn-primary" onclick="showPage('contact')">Contact Us Now</button>
+  </section>
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-bottom" style="border:none;padding:0">
+        <p>© 2025 NeoGreen Energy (Pvt.) Ltd.</p>
+        <div class="footer-bottom-links">
+          <a href="#" onclick="showPage('home');return false">Home</a>
+          <a href="#" onclick="showPage('contact');return false">Contact</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<!-- ============================= POLICY ============================= -->
+<div class="page" id="page-policy">
+  <section class="section">
+    <div class="section-inner">
+      <div style="margin-bottom:20px"><a href="#" onclick="showPage('about');return false" style="color:var(--g2);font-size:.875rem;font-weight:600">← Back to About</a></div>
+      <div class="policy-wrap">
+        <h2>Privacy Policy</h2>
+        <p class="policy-date">Last Updated: January 1, 2025</p>
+        <div class="policy-section">
+          <h3>1. Introduction</h3>
+          <p>NeoGreen Energy (Pvt.) Ltd. ("NeoGreen", "we", "us") is committed to protecting your personal information. This Privacy Policy outlines how we collect, use, disclose, and safeguard your data when you interact with our website, services, or our team.</p>
+        </div>
+        <div class="policy-section">
+          <h3>2. Information We Collect</h3>
+          <ul>
+            <li>Contact details (name, email, phone number, address)</li>
+            <li>Energy usage data and property information for system sizing</li>
+            <li>Payment and billing information (processed securely via third-party gateways)</li>
+            <li>Technical data (IP address, browser type, pages visited)</li>
+            <li>Communication records (emails, chat transcripts, service requests)</li>
+          </ul>
+        </div>
+        <div class="policy-section">
+          <h3>3. How We Use Your Information</h3>
+          <ul>
+            <li>To provide solar installation, maintenance, and support services</li>
+            <li>To generate customized proposals and solar performance reports</li>
+            <li>To process payments and manage warranties</li>
+            <li>To send updates about products, promotions, and regulatory changes</li>
+            <li>To improve our website and service quality</li>
+          </ul>
+        </div>
+        <div class="policy-section">
+          <h3>4. Data Sharing</h3>
+          <p>We do not sell your personal data to third parties. We may share information with authorized service partners (e.g., installation contractors, AEDB for net metering) strictly to fulfill your service agreement. All partners are bound by confidentiality obligations.</p>
+        </div>
+        <div class="policy-section">
+          <h3>5. Data Security</h3>
+          <p>We implement industry-standard security measures including SSL encryption, secure servers, and restricted access controls. However, no digital transmission is 100% secure. We encourage you to protect your account credentials.</p>
+        </div>
+        <div class="policy-section">
+          <h3>6. Your Rights</h3>
+          <ul>
+            <li>Access and correct your personal information</li>
+            <li>Request deletion of your data (subject to legal obligations)</li>
+            <li>Opt-out of marketing communications at any time</li>
+            <li>Lodge a complaint with the relevant data protection authority</li>
+          </ul>
+        </div>
+        <div class="policy-section">
+          <h3>7. Contact</h3>
+          <p>For privacy-related inquiries, contact our Data Protection Officer at: <strong>privacy@neogreen.pk</strong> or call <strong>+92-21-111-NEO-GRN</strong>.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ============================= FAQ ============================= -->
+<div class="page" id="page-faq">
+  <section class="section">
+    <div class="section-inner">
+      <div style="margin-bottom:20px"><a href="#" onclick="showPage('about');return false" style="color:var(--g2);font-size:.875rem;font-weight:600">← Back to About</a></div>
+      <div class="section-header center">
+        <div class="section-label">Help Center</div>
+        <h2 class="section-title">Frequently Asked Questions</h2>
+        <p class="section-sub">Everything you need to know about solar energy and NeoGreen's services.</p>
+      </div>
+      <div class="faq-list">
+        <div class="faq-item open">
+          <button class="faq-q" onclick="toggleFaq(this)">How much does a solar system cost in Pakistan? <span class="faq-icon">+</span></button>
+          <div class="faq-a">Solar system costs vary by size and type. A typical 5kW residential system costs between PKR 700,000–900,000 including installation, net metering, and 1-year AMC. Our solar calculator can give you a personalized estimate based on your consumption.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">What is net metering and how does it work? <span class="faq-icon">+</span></button>
+          <div class="faq-a">Net metering allows your solar system to feed excess electricity back to the grid. Your electricity meter runs forward when you consume grid power and backward when your solar system generates surplus. DISCO credits your account for the exported units, reducing your monthly bill significantly.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">How long does installation take? <span class="faq-icon">+</span></button>
+          <div class="faq-a">A standard residential rooftop installation takes 1–3 days. Commercial projects may take 1–2 weeks. Net metering approval from DISCO typically takes an additional 4–8 weeks, during which your system operates off-grid or as a backup system.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">What warranties do your products carry? <span class="faq-icon">+</span></button>
+          <div class="faq-a">Solar panels carry a 25-year linear performance warranty and 10-year product warranty. Inverters come with a 5–10 year manufacturer warranty. Lithium-ion batteries have a 10-year or 6,000-cycle warranty. NeoGreen also provides a 1-year comprehensive AMC on all installations.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">Can solar work during load shedding? <span class="faq-icon">+</span></button>
+          <div class="faq-a">Yes! With a hybrid inverter and battery storage system, your solar setup can provide uninterrupted power during load shedding. The batteries charge from solar during the day and power your home or office when the grid goes down.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">How do I choose the right system size? <span class="faq-icon">+</span></button>
+          <div class="faq-a">System sizing depends on your average monthly electricity consumption (units/kWh), available roof space, and budget. Use our free Solar Calculator or speak with our energy consultants for a detailed site assessment and customized proposal.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">Do you offer financing options? <span class="faq-icon">+</span></button>
+          <div class="faq-a">Yes, NeoGreen partners with leading banks to offer easy installment plans (0% markup on select schemes). We also assist with government solar loans and Green Finance initiatives. Contact our team to explore financing options suited to your budget.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">What maintenance is required after installation? <span class="faq-icon">+</span></button>
+          <div class="faq-a">Solar panels require minimal maintenance — mainly periodic cleaning to remove dust. We recommend professional maintenance every 6 months. Our annual maintenance contracts (AMC) include panel cleaning, system health checks, inverter inspection, and remote monitoring support.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ============================= PARTNERS ============================= -->
+<div class="page" id="page-partners">
+  <div class="about-hero">
+    <div class="section-label" style="color:var(--g3)">Collaborations</div>
+    <h1>Our Partners</h1>
+    <p>NeoGreen works with globally recognized brands and local institutions to deliver the best solar energy solutions.</p>
+  </div>
+  <section class="section" style="background:white">
+    <div class="section-inner">
+      <div class="section-header center">
+        <div class="section-label">Technology Partners</div>
+        <h2 class="section-title">World-Class Brands, Local Expertise</h2>
+      </div>
+      <div class="partner-logos">
+        <div class="partner-logo">🌞 Longi Solar</div>
+        <div class="partner-logo">⚡ Growatt</div>
+        <div class="partner-logo">🔋 Pylontech</div>
+        <div class="partner-logo">☀️ JA Solar</div>
+        <div class="partner-logo">🔌 Solis</div>
+        <div class="partner-logo">💡 Huawei FusionSolar</div>
+        <div class="partner-logo">🌍 Fronius</div>
+        <div class="partner-logo">⚙️ Jinko Solar</div>
+        <div class="partner-logo">🏭 Canadian Solar</div>
+        <div class="partner-logo">🔋 BYD Battery</div>
+        <div class="partner-logo">📡 SMA Solar</div>
+        <div class="partner-logo">🌿 SHARP Solar</div>
+      </div>
+
+      <div style="margin-top:72px">
+        <div class="section-header center">
+          <div class="section-label">Institutional Partners</div>
+          <h2 class="section-title">Government & Financial Partners</h2>
+        </div>
+        <div class="cards-grid">
+          <div class="card">
+            <div class="card-icon" style="background:#fef9c3">🏛️</div>
+            <h3>AEDB</h3>
+            <p>NeoGreen is a registered Alternative Energy Development Board installer, authorized to process net metering applications with all DISCOs.</p>
+          </div>
+          <div class="card">
+            <div class="card-icon" style="background:#dbeafe">🏦</div>
+            <h3>State Bank of Pakistan</h3>
+            <p>Partner in SBP's Renewable Energy Finance Scheme, enabling subsidized loans for our customers.</p>
+          </div>
+          <div class="card">
+            <div class="card-icon" style="background:#dcfce7">🏢</div>
+            <h3>SNGPL & SSGCL</h3>
+            <p>Collaboration on hybrid energy systems integrating solar with gas infrastructure for commercial clients.</p>
+          </div>
+          <div class="card">
+            <div class="card-icon" style="background:#fce7f3">🎓</div>
+            <h3>IBA & NUST</h3>
+            <p>Research partnerships with leading universities for solar technology innovation and workforce training.</p>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top:72px;background:linear-gradient(135deg,var(--g4),var(--b3));border-radius:var(--radius-lg);padding:48px;text-align:center">
+        <h2 style="font-family:var(--font-head);font-size:2rem;font-weight:800;margin-bottom:12px;color:var(--dark)">Become a NeoGreen Partner</h2>
+        <p style="color:var(--muted);max-width:500px;margin:0 auto 28px;line-height:1.7">Join our growing network of distributors, installers, and technology partners across Pakistan and beyond.</p>
+        <button class="btn btn-primary" onclick="showPage('contact')">Partner With Us →</button>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ============================= PRODUCTS ============================= -->
+<div class="page" id="page-products">
+  <div class="about-hero">
+    <div class="section-label" style="color:var(--g3)">Our Products</div>
+    <h1>Solar Products & Solutions</h1>
+    <p>Premium solar panels, smart inverters, and lithium-ion batteries — sourced from global Tier-1 manufacturers.</p>
+  </div>
+  <section class="section">
+    <div class="section-inner">
+      <div class="product-tabs">
+        <button class="prod-tab active" onclick="filterProducts('all',this)">All Products</button>
+        <button class="prod-tab" onclick="filterProducts('panel',this)">☀️ Solar Panels</button>
+        <button class="prod-tab" onclick="filterProducts('inverter',this)">⚡ Inverters</button>
+        <button class="prod-tab" onclick="filterProducts('battery',this)">🔋 Batteries</button>
+      </div>
+      <div class="product-grid" id="productGrid">
+        <!-- Solar Panels -->
+        <div class="product-card" data-cat="panel">
+          <div class="product-img" style="background:linear-gradient(135deg,#e8f5e9,#c8e6c9)">☀️<span class="product-badge">Bestseller</span></div>
+          <div class="product-body">
+            <h3>Longi Hi-MO 6 – 550W Mono PERC</h3>
+            <p>Top-tier monocrystalline panel with 21.4% efficiency. Ideal for residential and commercial rooftops.</p>
+            <div class="product-specs"><span class="spec-tag">550W</span><span class="spec-tag">Mono PERC</span><span class="spec-tag">25yr Warranty</span></div>
+            <div class="product-footer"><div class="product-price">PKR 18,500</div><button class="btn btn-primary" style="padding:9px 18px;font-size:.85rem" onclick="showPage('contact')">Get Quote</button></div>
+          </div>
+        </div>
+        <div class="product-card" data-cat="panel">
+          <div class="product-img" style="background:linear-gradient(135deg,#f0fff4,#c6f6d5)">🌞</div>
+          <div class="product-body">
+            <h3>JA Solar 580W Bifacial</h3>
+            <p>Bifacial design captures reflected light for up to 30% extra output. Perfect for ground-mount systems.</p>
+            <div class="product-specs"><span class="spec-tag">580W</span><span class="spec-tag">Bifacial</span><span class="spec-tag">Half-Cut</span></div>
+            <div class="product-footer"><div class="product-price">PKR 21,000</div><button class="btn btn-primary" style="padding:9px 18px;font-size:.85rem" onclick="showPage('contact')">Get Quote</button></div>
+          </div>
+        </div>
+        <div class="product-card" data-cat="panel">
+          <div class="product-img" style="background:linear-gradient(135deg,#e8f5e9,#a5d6a7)">🔆</div>
+          <div class="product-body">
+            <h3>Canadian Solar 440W</h3>
+            <p>Reliable and cost-effective panel for budget-conscious residential projects. Proven global track record.</p>
+            <div class="product-specs"><span class="spec-tag">440W</span><span class="spec-tag">Mono</span><span class="spec-tag">10yr Warranty</span></div>
+            <div class="product-footer"><div class="product-price">PKR 13,500</div><button class="btn btn-primary" style="padding:9px 18px;font-size:.85rem" onclick="showPage('contact')">Get Quote</button></div>
+          </div>
+        </div>
+        <!-- Inverters -->
+        <div class="product-card" data-cat="inverter">
+          <div class="product-img" style="background:linear-gradient(135deg,#fff8e1,#ffecb3)">⚡<span class="product-badge">Top Rated</span></div>
+          <div class="product-body">
+            <h3>Growatt SPH 10000TL3 BH-UP</h3>
+            <p>10kW three-phase hybrid inverter with built-in EPS and smart monitoring via ShinePhone app.</p>
+            <div class="product-specs"><span class="spec-tag">10kW</span><span class="spec-tag">Hybrid</span><span class="spec-tag">3-Phase</span></div>
+            <div class="product-footer"><div class="product-price">PKR 185,000</div><button class="btn btn-primary" style="padding:9px 18px;font-size:.85rem" onclick="showPage('contact')">Get Quote</button></div>
+          </div>
+        </div>
+        <div class="product-card" data-cat="inverter">
+          <div class="product-img" style="background:linear-gradient(135deg,#fffde7,#fff9c4)">🔌</div>
+          <div class="product-body">
+            <h3>Solis S6 5kW Hybrid</h3>
+            <p>Single-phase hybrid inverter with dual MPPT. Ideal for residential hybrid systems up to 20kWh storage.</p>
+            <div class="product-specs"><span class="spec-tag">5kW</span><span class="spec-tag">Single Phase</span><span class="spec-tag">Dual MPPT</span></div>
+            <div class="product-footer"><div class="product-price">PKR 98,000</div><button class="btn btn-primary" style="padding:9px 18px;font-size:.85rem" onclick="showPage('contact')">Get Quote</button></div>
+          </div>
+        </div>
+        <div class="product-card" data-cat="inverter">
+          <div class="product-img" style="background:linear-gradient(135deg,#fef3c7,#fde68a)">⚙️</div>
+          <div class="product-body">
+            <h3>Huawei SUN2000 20KTL</h3>
+            <p>Commercial-grade string inverter with AI-powered smart I-V curve diagnosis for maximum yield.</p>
+            <div class="product-specs"><span class="spec-tag">20kW</span><span class="spec-tag">On-Grid</span><span class="spec-tag">AI-Powered</span></div>
+            <div class="product-footer"><div class="product-price">PKR 320,000</div><button class="btn btn-primary" style="padding:9px 18px;font-size:.85rem" onclick="showPage('contact')">Get Quote</button></div>
+          </div>
+        </div>
+        <!-- Batteries -->
+        <div class="product-card" data-cat="battery">
+          <div class="product-img" style="background:linear-gradient(135deg,#e3f6ff,#bae6fd)">🔋<span class="product-badge">Best Value</span></div>
+          <div class="product-body">
+            <h3>Pylontech US5000 – 5kWh LFP</h3>
+            <p>Stackable lithium iron phosphate battery with 6,000+ cycle life. Safe, modular, and highly reliable.</p>
+            <div class="product-specs"><span class="spec-tag">5kWh</span><span class="spec-tag">LFP</span><span class="spec-tag">10yr Warranty</span></div>
+            <div class="product-footer"><div class="product-price">PKR 220,000</div><button class="btn btn-primary" style="padding:9px 18px;font-size:.85rem" onclick="showPage('contact')">Get Quote</button></div>
+          </div>
+        </div>
+        <div class="product-card" data-cat="battery">
+          <div class="product-img" style="background:linear-gradient(135deg,#dbeafe,#93c5fd)">⚡</div>
+          <div class="product-body">
+            <h3>BYD Battery-Box Premium 10kWh</h3>
+            <p>High-voltage lithium battery system with fire safety guarantee. Scalable up to 66kWh.</p>
+            <div class="product-specs"><span class="spec-tag">10kWh</span><span class="spec-tag">High Voltage</span><span class="spec-tag">Scalable</span></div>
+            <div class="product-footer"><div class="product-price">PKR 410,000</div><button class="btn btn-primary" style="padding:9px 18px;font-size:.85rem" onclick="showPage('contact')">Get Quote</button></div>
+          </div>
+        </div>
+        <div class="product-card" data-cat="battery">
+          <div class="product-img" style="background:linear-gradient(135deg,#e0f2fe,#7dd3fc)">💡</div>
+          <div class="product-body">
+            <h3>Growatt ARK 2.5H-A1 – 2.5kWh</h3>
+            <p>Entry-level home battery perfect for load-shedding backup. Pairs seamlessly with Growatt inverters.</p>
+            <div class="product-specs"><span class="spec-tag">2.5kWh</span><span class="spec-tag">LFP</span><span class="spec-tag">Plug & Play</span></div>
+            <div class="product-footer"><div class="product-price">PKR 115,000</div><button class="btn btn-primary" style="padding:9px 18px;font-size:.85rem" onclick="showPage('contact')">Get Quote</button></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ============================= PROJECTS ============================= -->
+<div class="page" id="page-projects">
+  <div class="about-hero">
+    <div class="section-label" style="color:var(--g3)">Our Portfolio</div>
+    <h1>Projects</h1>
+    <p>From residential rooftops to large-scale commercial and industrial solar farms — here's what we've built.</p>
+  </div>
+  <section class="section">
+    <div class="section-inner">
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-bottom:60px;text-align:center">
+        <div style="background:white;border:1px solid var(--border);border-radius:var(--radius);padding:28px">
+          <div style="font-family:var(--font-head);font-size:2.5rem;font-weight:800;color:var(--g1)">500+</div>
+          <div style="font-size:.875rem;color:var(--muted);margin-top:4px">Total Projects</div>
+        </div>
+        <div style="background:white;border:1px solid var(--border);border-radius:var(--radius);padding:28px">
+          <div style="font-family:var(--font-head);font-size:2.5rem;font-weight:800;color:var(--b1)">50 MW</div>
+          <div style="font-size:.875rem;color:var(--muted);margin-top:4px">Total Capacity</div>
+        </div>
+        <div style="background:white;border:1px solid var(--border);border-radius:var(--radius);padding:28px">
+          <div style="font-family:var(--font-head);font-size:2.5rem;font-weight:800;color:var(--s1)">35,000+</div>
+          <div style="font-size:.875rem;color:var(--muted);margin-top:4px">Tons CO₂ Saved</div>
+        </div>
+      </div>
+
+      <div class="project-grid">
+        <div class="project-card">
+          <div class="project-img" style="background:linear-gradient(135deg,#e8f5e9,#c8e6c9)">🏭<span class="project-status status-done">Completed</span></div>
+          <div class="project-body">
+            <h3>DHA Commercial Plaza – Karachi</h3>
+            <p>250kW on-grid solar system for a mixed-use commercial complex. Achieved 65% reduction in utility bills.</p>
+            <div class="project-stats"><div class="pstat"><div class="pval">250 kW</div><div class="plbl">Capacity</div></div><div class="pstat"><div class="pval">380 MWh</div><div class="plbl">Annual Output</div></div><div class="pstat"><div class="pval">2023</div><div class="plbl">Completed</div></div></div>
+          </div>
+        </div>
+        <div class="project-card">
+          <div class="project-img" style="background:linear-gradient(135deg,#fef3c7,#fde68a)">🏠<span class="project-status status-done">Completed</span></div>
+          <div class="project-body">
+            <h3>Bahria Town Residential – Lahore</h3>
+            <p>50-home community solar project with shared battery storage. Pakistan's first residential solar microgrid.</p>
+            <div class="project-stats"><div class="pstat"><div class="pval">500 kW</div><div class="plbl">Capacity</div></div><div class="pstat"><div class="pval">50</div><div class="plbl">Homes</div></div><div class="pstat"><div class="pval">2022</div><div class="plbl">Completed</div></div></div>
+          </div>
+        </div>
+        <div class="project-card">
+          <div class="project-img" style="background:linear-gradient(135deg,#dbeafe,#93c5fd)">🏫<span class="project-status status-active">Ongoing</span></div>
+          <div class="project-body">
+            <h3>Government School Solar Programme</h3>
+            <p>Solar electrification of 200 schools across KPK under PM's Green Schools Initiative.</p>
+            <div class="project-stats"><div class="pstat"><div class="pval">200</div><div class="plbl">Schools</div></div><div class="pstat"><div class="pval">3 MW</div><div class="plbl">Total Capacity</div></div><div class="pstat"><div class="pval">2024</div><div class="plbl">In Progress</div></div></div>
+          </div>
+        </div>
+        <div class="project-card">
+          <div class="project-img" style="background:linear-gradient(135deg,#fce7f3,#f9a8d4)">🏥<span class="project-status status-done">Completed</span></div>
+          <div class="project-body">
+            <h3>Aga Khan Hospital – Hyderabad</h3>
+            <p>1MW rooftop solar with 500kWh battery backup ensuring 24/7 clean energy supply for critical healthcare.</p>
+            <div class="project-stats"><div class="pstat"><div class="pval">1 MW</div><div class="plbl">Capacity</div></div><div class="pstat"><div class="pval">500 kWh</div><div class="plbl">Storage</div></div><div class="pstat"><div class="pval">2024</div><div class="plbl">Completed</div></div></div>
+          </div>
+        </div>
+        <div class="project-card">
+          <div class="project-img" style="background:linear-gradient(135deg,#e0e7ff,#a5b4fc)">🏗️<span class="project-status status-upcoming">Upcoming</span></div>
+          <div class="project-body">
+            <h3>Solar Farm – Cholistan Desert</h3>
+            <p>10MW utility-scale ground-mount solar farm. NeoGreen's flagship renewable energy project in Punjab.</p>
+            <div class="project-stats"><div class="pstat"><div class="pval">10 MW</div><div class="plbl">Capacity</div></div><div class="pstat"><div class="pval">15,000 MWh</div><div class="plbl">Annual Output</div></div><div class="pstat"><div class="pval">2025</div><div class="plbl">Expected</div></div></div>
+          </div>
+        </div>
+        <div class="project-card">
+          <div class="project-img" style="background:linear-gradient(135deg,#d1fae5,#6ee7b7)">🏭<span class="project-status status-done">Completed</span></div>
+          <div class="project-body">
+            <h3>Textile Mill – Faisalabad</h3>
+            <p>2MW industrial solar system eliminating peak-hour WAPDA dependency for a major textile exporter.</p>
+            <div class="project-stats"><div class="pstat"><div class="pval">2 MW</div><div class="plbl">Capacity</div></div><div class="pstat"><div class="pval">PKR 8M</div><div class="plbl">Annual Saving</div></div><div class="pstat"><div class="pval">2023</div><div class="plbl">Completed</div></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ============================= CALCULATOR ============================= -->
+<div class="page" id="page-calculator">
+  <div class="about-hero">
+    <div class="section-label" style="color:var(--g3)">Tools</div>
+    <h1>Solar Savings Calculator</h1>
+    <p>Find out how much you can save with solar. Enter your details below for an instant estimate.</p>
+  </div>
+  <section class="section">
+    <div class="section-inner">
+      <div class="calc-wrap">
+        <div class="calc-form">
+          <h3 style="font-family:var(--font-head);font-size:1.4rem;font-weight:700;margin-bottom:24px">Your Energy Details</h3>
+          <div class="form-group">
+            <label>Monthly Electricity Bill (PKR)</label>
+            <input type="number" id="bill" placeholder="e.g. 15000" oninput="calcSolar()"/>
+          </div>
+          <div class="form-group">
+            <label>Monthly Consumption (Units/kWh)</label>
+            <input type="number" id="units" placeholder="e.g. 500" oninput="calcSolar()"/>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Province</label>
+              <select id="province" onchange="calcSolar()">
+                <option>Punjab</option><option>Sindh</option><option>KPK</option><option>Balochistan</option><option>Islamabad</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>System Type</label>
+              <select id="sysType" onchange="calcSolar()">
+                <option>On-Grid (Net Metering)</option>
+                <option>Hybrid (With Battery)</option>
+                <option>Off-Grid</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Roof Area Available (sq. ft)</label>
+            <input type="number" id="roof" placeholder="e.g. 1200" oninput="calcSolar()"/>
+          </div>
+          <div class="form-group">
+            <label>Budget Range (PKR)</label>
+            <select id="budget" onchange="calcSolar()">
+              <option>Up to 500,000</option>
+              <option>500,000 – 1,000,000</option>
+              <option>1,000,000 – 2,500,000</option>
+              <option>2,500,000+</option>
+            </select>
+          </div>
+          <button class="calc-btn" onclick="calcSolar()">Calculate My Savings ⚡</button>
+        </div>
+
+        <div class="calc-result">
+          <div class="result-title">Your Solar Estimate</div>
+          <div class="result-item"><span class="result-label">Recommended System Size</span><span class="result-value" id="res-size">– kW</span></div>
+          <div class="result-item"><span class="result-label">Estimated System Cost</span><span class="result-value" id="res-cost">–</span></div>
+          <div class="result-item"><span class="result-label">Monthly Bill Saving</span><span class="result-value" id="res-saving">–</span></div>
+          <div class="result-item"><span class="result-label">Annual Saving</span><span class="result-value" id="res-annual">–</span></div>
+          <div class="result-item"><span class="result-label">Payback Period</span><span class="result-value" id="res-payback">–</span></div>
+          <div class="result-item"><span class="result-label">CO₂ Saved/Year</span><span class="result-value" id="res-co2">–</span></div>
+          <div class="result-note">💡 This is an estimate. Our solar engineers will provide a detailed proposal after a free site survey. Contact us to get started!</div>
+          <button class="btn" style="margin-top:20px;background:rgba(255,255,255,.15);color:white;width:100%;justify-content:center;border:1.5px solid rgba(255,255,255,.3)" onclick="showPage('contact')">Get Detailed Proposal →</button>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ============================= BLOG ============================= -->
+<div class="page" id="page-blog">
+  <div class="about-hero">
+    <div class="section-label" style="color:var(--g3)">Knowledge Hub</div>
+    <h1>NeoGreen Blog</h1>
+    <p>Stay informed with the latest solar energy news, tips, and insights from our experts.</p>
+  </div>
+  <section class="section">
+    <div class="section-inner">
+      <div class="blog-grid">
+        <div class="blog-card">
+          <div class="blog-img" style="background:linear-gradient(135deg,#e8f5e9,#a5d6a7)">☀️<span class="blog-tag">Solar Guide</span></div>
+          <div class="blog-body">
+            <div class="blog-meta"><span>📅 March 15, 2025</span><span>👤 Ahmad Khan</span><span>⏱ 5 min read</span></div>
+            <h3>How to Size Your Solar System Correctly in 2025</h3>
+            <p>Learn the step-by-step process for calculating the right solar system size for your home or business based on consumption, roof space, and budget.</p>
+            <a class="blog-read" href="#">Read Article →</a>
+          </div>
+        </div>
+        <div class="blog-card">
+          <div class="blog-img" style="background:linear-gradient(135deg,#fef3c7,#fde68a)">🔋<span class="blog-tag">Battery Storage</span></div>
+          <div class="blog-body">
+            <div class="blog-meta"><span>📅 Feb 28, 2025</span><span>👤 Sara Tariq</span><span>⏱ 7 min read</span></div>
+            <h3>LFP vs NMC Batteries: Which is Right for Pakistan?</h3>
+            <p>A deep dive into the two dominant lithium-ion chemistries — comparing safety, cycle life, cost, and performance in Pakistan's climate.</p>
+            <a class="blog-read" href="#">Read Article →</a>
+          </div>
+        </div>
+        <div class="blog-card">
+          <div class="blog-img" style="background:linear-gradient(135deg,#dbeafe,#93c5fd)">📊<span class="blog-tag">Net Metering</span></div>
+          <div class="blog-body">
+            <div class="blog-meta"><span>📅 Feb 10, 2025</span><span>👤 Usman Ali</span><span>⏱ 6 min read</span></div>
+            <h3>Net Metering in Pakistan: Complete 2025 Guide</h3>
+            <p>Everything you need to know about applying for net metering, DISCO approvals, tariff calculations, and how to maximize credits.</p>
+            <a class="blog-read" href="#">Read Article →</a>
+          </div>
+        </div>
+        <div class="blog-card">
+          <div class="blog-img" style="background:linear-gradient(135deg,#fce7f3,#f9a8d4)">💰<span class="blog-tag">Finance</span></div>
+          <div class="blog-body">
+            <div class="blog-meta"><span>📅 Jan 25, 2025</span><span>👤 Nadia Shah</span><span>⏱ 4 min read</span></div>
+            <h3>Solar Financing Options in Pakistan: Banks, Schemes & Subsidies</h3>
+            <p>Explore the best financing options for going solar in 2025, including SBP schemes, ZTBL loans, and commercial bank solar products.</p>
+            <a class="blog-read" href="#">Read Article →</a>
+          </div>
+        </div>
+        <div class="blog-card">
+          <div class="blog-img" style="background:linear-gradient(135deg,#d1fae5,#6ee7b7)">🔧<span class="blog-tag">Maintenance</span></div>
+          <div class="blog-body">
+            <div class="blog-meta"><span>📅 Jan 8, 2025</span><span>👤 Ali Raza</span><span>⏱ 5 min read</span></div>
+            <h3>Solar Panel Maintenance: A Seasonal Checklist for Pakistan</h3>
+            <p>Keep your system performing at peak efficiency with our expert maintenance guide covering monsoon, summer, and winter care.</p>
+            <a class="blog-read" href="#">Read Article →</a>
+          </div>
+        </div>
+        <div class="blog-card">
+          <div class="blog-img" style="background:linear-gradient(135deg,#e0e7ff,#a5b4fc)">🌍<span class="blog-tag">Industry</span></div>
+          <div class="blog-body">
+            <div class="blog-meta"><span>📅 Dec 20, 2024</span><span>👤 Bilal Hussain</span><span>⏱ 8 min read</span></div>
+            <h3>Pakistan's Solar Industry: 2024 Review and 2025 Outlook</h3>
+            <p>An industry analyst's perspective on Pakistan's record solar imports, policy changes, and what lies ahead for the renewable energy sector.</p>
+            <a class="blog-read" href="#">Read Article →</a>
+          </div>
+        </div>
+      </div>
+      <div style="text-align:center;margin-top:48px">
+        <button class="btn btn-primary">Load More Articles</button>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ============================= TEAM ============================= -->
+<div class="page" id="page-team">
+  <div class="about-hero">
+    <div class="section-label" style="color:var(--g3)">Our People</div>
+    <h1>Meet the NeoGreen Team</h1>
+    <p>Passionate engineers, energy experts, and sustainability champions driving Pakistan's solar revolution.</p>
+  </div>
+  <section class="section">
+    <div class="section-inner">
+      <div class="section-header center">
+        <div class="section-label">Leadership</div>
+        <h2 class="section-title">Executive Team</h2>
+      </div>
+      <div class="team-grid" style="margin-bottom:60px">
+        <div class="team-card">
+          <div class="team-avatar" style="background:linear-gradient(135deg,var(--g4),#b9fbc0)">👨‍💼</div>
+          <div class="team-info">
+            <h3>Zafar Iqbal</h3>
+            <div class="role">CEO & Co-Founder</div>
+            <p>15+ years in energy sector. Former AEDB Director. Leads NeoGreen's strategic vision and national expansion.</p>
+            <div class="team-social"><a href="#">in</a><a href="#">𝕏</a></div>
+          </div>
+        </div>
+        <div class="team-card">
+          <div class="team-avatar" style="background:linear-gradient(135deg,var(--b3),#bae6fd)">👩‍💻</div>
+          <div class="team-info">
+            <h3>Dr. Hira Baig</h3>
+            <div class="role">CTO & Co-Founder</div>
+            <p>PhD in Renewable Energy, NUST. Leads R&D and technology partnerships with global solar manufacturers.</p>
+            <div class="team-social"><a href="#">in</a><a href="#">𝕏</a></div>
+          </div>
+        </div>
+        <div class="team-card">
+          <div class="team-avatar" style="background:linear-gradient(135deg,#fef9c3,#fde68a)">👨‍🔬</div>
+          <div class="team-info">
+            <h3>Imran Sheikh</h3>
+            <div class="role">Chief Operations Officer</div>
+            <p>10+ years managing large-scale solar projects. Oversees installation quality, supply chain, and after-sales.</p>
+            <div class="team-social"><a href="#">in</a><a href="#">𝕏</a></div>
+          </div>
+        </div>
+        <div class="team-card">
+          <div class="team-avatar" style="background:linear-gradient(135deg,#fce7f3,#fbcfe8)">👩‍🎨</div>
+          <div class="team-info">
+            <h3>Sana Mirza</h3>
+            <div class="role">Chief Marketing Officer</div>
+            <p>Brand strategist with deep roots in clean energy advocacy. Leads NeoGreen's digital presence and growth.</p>
+            <div class="team-social"><a href="#">in</a><a href="#">𝕏</a></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-header center">
+        <div class="section-label">Engineering</div>
+        <h2 class="section-title">Technical Team</h2>
+      </div>
+      <div class="team-grid">
+        <div class="team-card">
+          <div class="team-avatar" style="background:linear-gradient(135deg,#d1fae5,#a7f3d0)">👷</div>
+          <div class="team-info">
+            <h3>Khalid Mahmood</h3>
+            <div class="role">Head of Installations</div>
+            <p>Certified solar installer with 500+ completed projects across Pakistan.</p>
+            <div class="team-social"><a href="#">in</a></div>
+          </div>
+        </div>
+        <div class="team-card">
+          <div class="team-avatar" style="background:linear-gradient(135deg,#e0e7ff,#c7d2fe)">⚡</div>
+          <div class="team-info">
+            <h3>Faisal Qureshi</h3>
+            <div class="role">Electrical Engineer</div>
+            <p>Expert in grid-tied systems, net metering, and power quality analysis.</p>
+            <div class="team-social"><a href="#">in</a></div>
+          </div>
+        </div>
+        <div class="team-card">
+          <div class="team-avatar" style="background:linear-gradient(135deg,#fef3c7,#fde68a)">🔋</div>
+          <div class="team-info">
+            <h3>Ayesha Noor</h3>
+            <div class="role">Battery Systems Specialist</div>
+            <p>Lithium-ion storage expert specializing in commercial and industrial BESS design.</p>
+            <div class="team-social"><a href="#">in</a></div>
+          </div>
+        </div>
+        <div class="team-card">
+          <div class="team-avatar" style="background:linear-gradient(135deg,var(--g4),#b9fbc0)">📊</div>
+          <div class="team-info">
+            <h3>Omar Farouk</h3>
+            <div class="role">Energy Analyst</div>
+            <p>PV modeling, system simulation, and ROI optimization using PVsyst and SAM software.</p>
+            <div class="team-social"><a href="#">in</a></div>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top:60px;background:linear-gradient(135deg,var(--g4),var(--b3));border-radius:var(--radius-lg);padding:48px;text-align:center">
+        <h2 style="font-family:var(--font-head);font-size:1.8rem;font-weight:800;margin-bottom:12px;color:var(--dark)">Join Our Team</h2>
+        <p style="color:var(--muted);max-width:480px;margin:0 auto 24px;line-height:1.7">We're always looking for talented engineers, technicians, and energy professionals to grow with NeoGreen.</p>
+        <button class="btn btn-primary" onclick="showPage('contact')">View Open Positions</button>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ============================= CONTACT ============================= -->
+<div class="page" id="page-contact">
+  <div class="about-hero">
+    <div class="section-label" style="color:var(--g3)">Get In Touch</div>
+    <h1>Contact NeoGreen</h1>
+    <p>Ready to go solar? Have a question? Our team is here to help.</p>
+  </div>
+  <section class="section">
+    <div class="section-inner">
+      <div class="contact-wrap">
+        <div class="contact-info">
+          <h2>Let's Talk Solar</h2>
+          <p style="color:var(--muted);line-height:1.7;margin-bottom:32px">Whether you're a homeowner exploring solar for the first time or a developer planning a large-scale installation, our team of experts is ready to assist.</p>
+          <div class="contact-detail">
+            <div class="ic">📍</div>
+            <div class="ct-txt"><h4>Head Office</h4><p>Plot 47, Block B, Clifton, Karachi 75600, Pakistan</p></div>
+          </div>
+          <div class="contact-detail">
+            <div class="ic">📞</div>
+            <div class="ct-txt"><h4>Phone</h4><p>+92-21-111-NEO-GRN (636-476)</p></div>
+          </div>
+          <div class="contact-detail">
+            <div class="ic">📧</div>
+            <div class="ct-txt"><h4>Email</h4><p>info@neogreen.pk</p></div>
+          </div>
+          <div class="contact-detail">
+            <div class="ic">🕘</div>
+            <div class="ct-txt"><h4>Working Hours</h4><p>Mon – Sat: 9:00 AM – 6:00 PM</p></div>
+          </div>
+          <div class="map-embed"><span>🗺️</span><p>Karachi, Pakistan</p></div>
+          <div style="margin-top:24px">
+            <h4 style="font-family:var(--font-head);font-weight:700;margin-bottom:14px;color:var(--dark)">Regional Offices</h4>
+            <p style="font-size:.875rem;color:var(--muted);line-height:2">📍 Lahore: 12 MM Alam Road, Gulberg III<br>📍 Islamabad: F-10 Markaz, Blue Area<br>📍 Faisalabad: Susan Road, D-Type Colony<br>📍 Peshawar: Ring Road, Hayatabad</p>
+          </div>
+        </div>
+
+        <div class="contact-form">
+          <h3>Send Us a Message</h3>
+          <div class="form-row">
+            <div class="form-group"><label>First Name</label><input type="text" placeholder="Ahmad"/></div>
+            <div class="form-group"><label>Last Name</label><input type="text" placeholder="Khan"/></div>
+          </div>
+          <div class="form-group"><label>Email Address</label><input type="email" placeholder="ahmad@email.com"/></div>
+          <div class="form-group"><label>Phone Number</label><input type="tel" placeholder="+92 300 0000000"/></div>
+          <div class="form-group">
+            <label>Inquiry Type</label>
+            <select>
+              <option>Residential Solar System</option>
+              <option>Commercial Solar System</option>
+              <option>Industrial Solar Project</option>
+              <option>Battery Storage</option>
+              <option>Net Metering Assistance</option>
+              <option>Maintenance / AMC</option>
+              <option>Partnership Inquiry</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div class="form-group"><label>Message</label><textarea placeholder="Tell us about your energy needs, property size, and any specific requirements..."></textarea></div>
+          <button class="submit-btn" onclick="submitForm(this)">Send Message ✉️</button>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ===== SCRIPTS ===== -->
+<script>
+// Page navigation
+function showPage(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  const target=document.getElementById('page-'+id);
+  if(target){target.classList.add('active');window.scrollTo({top:0,behavior:'smooth'});}
+  document.querySelectorAll('.nav-links a, .nav-links button').forEach(l=>l.classList.remove('active'));
+  const navMap={'home':0,'about':1,'partners':2,'products':3,'projects':4,'calculator':5,'blog':6,'team':7,'contact':8};
+  const links=document.querySelectorAll('.nav-links > a, .nav-links > .nav-dropdown > button');
+  if(navMap[id]!==undefined && links[navMap[id]]) links[navMap[id]].classList.add('active');
+  // close mobile nav
+  document.getElementById('navLinks').classList.remove('open');
+}
+
+function toggleNav(){
+  document.getElementById('navLinks').classList.toggle('open');
+}
+
+// FAQ
+function toggleFaq(btn){
+  const item=btn.parentElement;
+  document.querySelectorAll('.faq-item.open').forEach(i=>{if(i!==item)i.classList.remove('open');});
+  item.classList.toggle('open');
+}
+
+// Product filter
+function filterProducts(cat, btn){
+  document.querySelectorAll('.prod-tab').forEach(t=>t.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.product-card').forEach(c=>{
+    if(cat==='all'||c.dataset.cat===cat){c.style.display='';} else {c.style.display='none';}
+  });
+}
+
+// Solar Calculator
+function calcSolar(){
+  const bill=parseFloat(document.getElementById('bill').value)||0;
+  const units=parseFloat(document.getElementById('units').value)||(bill/30);
+  if(!bill && !units){return;}
+  const kWh=units||bill/30;
+  const kW=Math.ceil((kWh*12)/1400); // rough sizing: 1kW ≈ 1400 units/year Pakistan avg
+  const sysType=document.getElementById('sysType').value;
+  let costPerKw=120000;
+  if(sysType.includes('Hybrid'))costPerKw=170000;
+  if(sysType.includes('Off-Grid'))costPerKw=190000;
+  const totalCost=kW*costPerKw;
+  const savingPct=sysType.includes('On-Grid')?0.75:sysType.includes('Hybrid')?0.90:0.95;
+  const monthlySave=bill*savingPct;
+  const annualSave=monthlySave*12;
+  const payback=(totalCost/annualSave).toFixed(1);
+  const co2=(kW*1.4*0.5).toFixed(1);
+
+  document.getElementById('res-size').textContent=kW+' kW';
+  document.getElementById('res-cost').textContent='PKR '+totalCost.toLocaleString();
+  document.getElementById('res-saving').textContent='PKR '+Math.round(monthlySave).toLocaleString()+'/mo';
+  document.getElementById('res-annual').textContent='PKR '+Math.round(annualSave).toLocaleString()+'/yr';
+  document.getElementById('res-payback').textContent=payback+' years';
+  document.getElementById('res-co2').textContent=co2+' tons';
+}
+
+// Contact form
+function submitForm(btn){
+  btn.textContent='✅ Message Sent!';
+  btn.style.background='#16a34a';
+  setTimeout(()=>{btn.textContent='Send Message ✉️';btn.style.background='';},3000);
+}
+
+// Navbar scroll effect
+window.addEventListener('scroll',()=>{
+  const nav=document.getElementById('navbar');
+  nav.style.boxShadow=window.scrollY>10?'0 2px 20px rgba(0,0,0,.08)':'none';
+});
+</script>
+</body>
+</html>
